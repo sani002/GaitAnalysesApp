@@ -200,7 +200,7 @@ elif app_mode == 'Run on video':
 
     if not video_file_buffer:
         #     if use_webcam:
-        vid = cv2.VideoCapture(0)
+        vid = cv2.VideoCapture(-1)
     #     else:
     #         vid = cv2.VideoCapture(DEMO_VIDEO)
     #         tfflie.name = DEMO_VIDEO
