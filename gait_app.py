@@ -13,7 +13,7 @@ hide_streamlit_style = """
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             footer:after {
-                            content:'This app is in its early stage. As a prototype, this app has not been verified by a dermatologist yet. Thank you.'; 
+                            content:'This app is in its early stage.'; 
                             visibility: visible;
                             display: block;
                             position: relative;
@@ -83,8 +83,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.sidebar.title('Face Mesh Application using MediaPipe')
-st.sidebar.subheader('Parameters')
+st.title('Face Mesh Application using MediaPipe')
+st.subheader('Parameters')
 
 
 @st.cache()
@@ -120,11 +120,11 @@ def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
     return resized
 
 
-app_mode = st.sidebar.selectbox('Choose the App mode',
-                                ['About App', 'Run on video']
-                                )
+app_mode = st.selectbox('Choose the App mode',
+                        ['About', 'LessDO IT']
+                        )
 
-if app_mode == 'About App':
+if app_mode == 'About':
     st.markdown('In this application we are using **MediaPipe** for creating a Face Mesh. **StreamLit** is to create the Web Graphical User Interface (GUI) ')
     st.markdown(
         """
@@ -159,16 +159,16 @@ if app_mode == 'About App':
             If you are feeling generous you can buy me a **cup of  coffee ** from [HERE](https://augmentedstartups.info/ByMeACoffee)
              
             ''')
-elif app_mode == 'Run on video':
+elif app_mode == 'LessDO IT':
 
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
-    use_webcam = st.sidebar.button('Use Webcam')
-    record = st.sidebar.checkbox("Record video")
+    use_webcam = st.button('Use Webcam')
+    record = st.checkbox("Record video")
     if record:
         st.checkbox("Recording", value=True)
 
-    st.sidebar.markdown('---')
+    st.markdown('---')
     st.markdown(
         """
     <style>
@@ -184,17 +184,17 @@ elif app_mode == 'Run on video':
         unsafe_allow_html=True,
     )
     # max faces
-    detection_confidence = st.sidebar.slider(
+    detection_confidence = st.slider(
         'Min Detection Confidence', min_value=0.0, max_value=1.0, value=0.5)
-    tracking_confidence = st.sidebar.slider(
+    tracking_confidence = st.slider(
         'Min Tracking Confidence', min_value=0.0, max_value=1.0, value=0.5)
 
-    st.sidebar.markdown('---')
+    st.markdown('---')
 
     st.markdown(' ## Output')
 
     stframe = st.empty()
-    video_file_buffer = st.sidebar.file_uploader(
+    video_file_buffer = st.file_uploader(
         "Upload a video", type=["mp4", "mov", 'avi', 'asf', 'm4v'])
     tfflie = tempfile.NamedTemporaryFile(delete=False)
 
@@ -217,8 +217,8 @@ elif app_mode == 'Run on video':
     codec = cv2.VideoWriter_fourcc('V', 'P', '0', '9')
     out = cv2.VideoWriter('output1.mp4', codec, fps_input, (width, height))
 
-    st.sidebar.text('Input video')
-    st.sidebar.video(tfflie.name)
+    st.text('Input video')
+    st.video(tfflie.name)
     fps = 0
     i = 0
 
