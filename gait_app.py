@@ -13,7 +13,7 @@ hide_streamlit_style = """
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             footer:after {
-                            content:'This app is in its early stage.'; 
+                            content:'This app is in its early stage.';
                             visibility: visible;
                             display: block;
                             position: relative;
@@ -56,13 +56,10 @@ def extract_keypoints(results):
     return pose
 
 
-DEMO_VIDEO = 'demo.mp4'
-
-# Fourty videos worth of data
-no_sequences = 120
-# videos are going to be 40 frames in length
+no_sequences = 1200
 sequence_length = 130
-actions = np.array(['steppage gait', 'trendelenburg gait'])
+actions = np.array(['Antalgic gait', 'Lurch gait',
+                   'Normal gait', 'Stiff legged gait', 'Trendelenburg gait'])
 label_map = {label: num for num, label in enumerate(actions)}
 model = keras.models.load_model('action.h5')
 
@@ -83,8 +80,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.title('Face Mesh Application using MediaPipe')
-st.subheader('Parameters')
+st.title('Come on! Do you walk right?')
+st.subheader('Lets check')
 
 
 @st.cache()
@@ -125,7 +122,7 @@ app_mode = st.selectbox('Choose the App mode',
                         )
 
 if app_mode == 'About':
-    st.markdown('In this application we are using **MediaPipe** for creating a Face Mesh. **StreamLit** is to create the Web Graphical User Interface (GUI) ')
+    st.markdown('This app is still a bay-beh. Have some mercy!')
     st.markdown(
         """
     <style>
@@ -140,23 +137,15 @@ if app_mode == 'About':
     """,
         unsafe_allow_html=True,
     )
-    st.video(
-        'https://www.youtube.com/watch?v=FMaNNXgB_5c&ab_channel=AugmentedStartups')
+    st.markdown(
+        "![Alt Text](https://i.postimg.cc/Tw6WwLKp/ezgif-com-video-to-gif.gif)")
 
     st.markdown('''
-          # About Me \n 
-            Hey this is ** Ritesh Kanjee ** from **Augmented Startups**. \n
+          # About the Project \n 
+            Hey this is Sani and Chaity from Gait analyzer!. \n
            
-            If you are interested in building more Computer Vision apps like this one then visit the **Vision Store** at
-            www.augmentedstartups.info/visionstore \n
-            
-            Also check us out on Social Media
-            - [YouTube](https://augmentedstartups.info/YouTube)
-            - [LinkedIn](https://augmentedstartups.info/LinkedIn)
-            - [Facebook](https://augmentedstartups.info/Facebook)
-            - [Discord](https://augmentedstartups.info/Discord)
-        
-            If you are feeling generous you can buy me a **cup of  coffee ** from [HERE](https://augmentedstartups.info/ByMeACoffee)
+            As there was no publicly available dataset, this model was trained on a **Custom Dataset** which will soon be found in Kaggle!\n
+
              
             ''')
 elif app_mode == 'LessDO IT':
@@ -222,7 +211,8 @@ elif app_mode == 'LessDO IT':
     fps = 0
     i = 0
 
-    colors = [(245, 117, 16), (117, 245, 16), (16, 117, 245), (200, 103, 27)]
+    colors = [(16, 117, 245), (200, 103, 27), (16, 117, 245),
+              (200, 103, 27), (16, 117, 245), (200, 103, 27)]
 
     def prob_viz(res, actions, input_frame, colors):
         output_frame = input_frame.copy()
