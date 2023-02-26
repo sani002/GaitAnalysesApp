@@ -58,10 +58,10 @@ def extract_keypoints(results):
 
 no_sequences = 1200
 sequence_length = 130
-actions = np.array(['Antalgic gait', 'Lurch gait',
-                   'Normal gait', 'Stiff legged gait', 'Trendelenburg gait'])
+actions = np.array(['Antalgic gait', 'Normal gait',
+                   'Stiff legged gait', 'Trendelenburg gait'])
 label_map = {label: num for num, label in enumerate(actions)}
-model = keras.models.load_model('action.h5')
+model = keras.models.load_model('best_model.h5')
 
 st.title('Gait Analyzer 1.0')
 
@@ -84,7 +84,7 @@ st.title('Come on! Do you walk right?')
 st.subheader('Lets check')
 
 
-@st.cache()
+@st.cache_data()
 def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
     # initialize the dimensions of the image to be resized and
     # grab the image size
@@ -142,9 +142,11 @@ if app_mode == 'About':
 
     st.markdown('''
           # About the Project \n 
-            Hey this is Sani and Chaity from Gait analyzer!. \n
+            Hey this is Sani and Chaity from Gait analyzer! \n
            
             As there was no publicly available dataset, this model was trained on a **Custom Dataset** which will soon be found in Kaggle!\n
+
+            To train the model we've used **Temporal Fusion Transformer model with Soft Self Attention mechanism**.\n
 
              
             ''')
@@ -184,9 +186,8 @@ elif app_mode == 'LessDO IT':
 
     stframe = st.empty()
     video_file_buffer = st.file_uploader(
-        "Upload a video", type=["mp4", "mov", 'avi', 'asf', 'm4v'])
+        "Upload a video (This video will be saved in our database to make the model better for YOU!)", type=["mp4", "mov", 'avi', 'asf', 'm4v'])
     tfflie = tempfile.NamedTemporaryFile(delete=False)
-
     if not video_file_buffer:
         #     if use_webcam:
         vid = cv2.VideoCapture(1)
@@ -212,7 +213,7 @@ elif app_mode == 'LessDO IT':
     i = 0
 
     colors = [(16, 117, 245), (200, 103, 27), (16, 117, 245),
-              (200, 103, 27), (16, 117, 245), (200, 103, 27)]
+              (200, 103, 27)]
 
     def prob_viz(res, actions, input_frame, colors):
         output_frame = input_frame.copy()
